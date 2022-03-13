@@ -7,7 +7,7 @@ from .models import *
 
 
 list_check = ['', " ", None, "null"]
-eng_dict = enchant.Dict('en_us') # Iherit proporty of enchant
+eng_dict = enchant.Dict('en_us') # Inherit property of enchant
 
 # Function  to add word to db using doc file
 def add_word():
@@ -17,6 +17,7 @@ def add_word():
 			AddedWord.objects.create(addedword=word)
 		except Exception as e:
 			print(f"{e}")
+
 
 # To begin the game
 class StartPlay(APIView):
@@ -35,9 +36,10 @@ class StartPlay(APIView):
 
 
 # To check whether the user guessing right word or not
-
+# Small functions can be created to validate all conditions 
+# No need to save data in db because it's one time play at a moment
+#Validating using game id
 class WordPlayView(APIView):
-	
 	def post(self, request):
 		data = request.data
 		word_list = data.get('userword')
@@ -63,7 +65,6 @@ class WordPlayView(APIView):
 				status = False
 				message = f"Cannot be of type {type(word).__name__}"
 				break
-
 			if len(word) < 5 and word != [] :
 				status = False
 				message = "Length is short"
